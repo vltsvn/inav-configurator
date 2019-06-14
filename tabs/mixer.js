@@ -323,7 +323,7 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
             $mixerPreset.change();
         }
 
-        modal = new jBox('Modal', {
+        TABS.mixer.modal = new jBox('Modal', {
             width: 480,
             height: 240,
             closeButton: 'title',
@@ -333,22 +333,51 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
             content: $('#mixerApplyContent')
         });
 
-        $('#execute-button').click(function () {
-            helper.mixer.loadServoRules(currentMixerPreset);
-            helper.mixer.loadMotorRules(currentMixerPreset);
+        TABS.mixer.heliModal = new jBox('Modal', {
+            width: 480,
+            height: 240,
+            closeButton: 'title',
+            animation: false,
+            title: chrome.i18n.getMessage("heliModalTitle"),
+            content: $('#heliModalContent')
+        });
+
+        function mixerApply() {
+            heliSettings = {
+                pitchRollWeight: $('#pitch-roll-weight').val(),
+                useTailMotor: $('#use-tail-motor').is(':checked')
+            };
+            TABS.mixer.heliModal.close();
+            helper.mixer.loadServoRules(currentMixerPreset, heliSettings);
+            helper.mixer.loadMotorRules(currentMixerPreset, heliSettings);
             renderServoMixRules();
             renderMotorMixRules();
             renderOutputMapping();
-            modal.close();
+        }
+
+        function mixerApplyAndReboot() {
+            mixerApply();
             saveAndReboot();
+        }
+
+        function mixerApplyWithModal(apply) {
+            $('#pitch-roll-weight').val(50);
+            $('#use-tail-motor').prop("checked", false);
+            if (MIXER_CONFIG.platformType==PLATFORM_HELICOPTER) {
+                $('#heli-apply-button').click(apply);
+                TABS.mixer.heliModal.open();
+            }
+            else
+                apply();
+        }
+        
+        $('#execute-button').click(function () {
+            TABS.mixer.modal.close();
+            mixerApplyWithModal(mixerApplyAndReboot);
         });
 
         $('#load-mixer-button').click(function () {
-            helper.mixer.loadServoRules(currentMixerPreset);
-            helper.mixer.loadMotorRules(currentMixerPreset);
-            renderServoMixRules();
-            renderMotorMixRules();
-            renderOutputMapping();
+            mixerApplyWithModal(mixerApply);
         });
 
         $servoMixTableBody.on('click', "[data-role='role-servo-delete']", function (event) {
@@ -401,5 +430,8 @@ TABS.mixer.initialize = function (callback, scrollPosition) {
 };
 
 TABS.mixer.cleanup = function (callback) {
+    delete TABS.mixer.modal;
+    delete TABS.mixer.heliModal;
+    $('.jBox-wrapper').remove()
     if (callback) callback();
 };

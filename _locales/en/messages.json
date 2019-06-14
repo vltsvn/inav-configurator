@@ -2905,6 +2905,24 @@
     "mixerPreset": {
         "message": "Mixer preset"
     },
+    "mixerPitchRollWeight": {
+        "message": "CCPM Pitch/Roll weight (%)"
+    },
+    "mixerUseTailMotor": {
+        "message": "Use tail motor instead of servo"
+    },
+    "heliModalTitle": {
+        "message": "Additional helicopter settings"
+    },
+    "heliModalHeader": {
+        "message": "Additional settings"
+    },
+    "heliModalDescription": {
+        "message": "Please, fill helicopter specific mixer settings"
+    },
+    "heliModalApply": {
+        "message": "Create mixer"
+    },
     "mixerLoadPresetRules": {
         "message": "Load mixer"
     },
