@@ -199,6 +199,10 @@ function onValidFirmware()
                 GUI.allowedTabs = GUI.defaultAllowedTabsWhenConnected.slice();
                 onConnect();
 
+                if (semver.gte(CONFIG.flightControllerVersion, "2.3.0")) {
+                    helper.defaultsDialog.init();
+                }
+
                 $('#tabs ul.mode-connected .tab_setup a').click();
             });
         });
@@ -216,7 +220,7 @@ function onInvalidFirmwareVariant()
 
 function onInvalidFirmwareVersion()
 {
-    GUI.log(chrome.i18n.getMessage('firmwareVersionNotSupported', [CONFIGURATOR.minfirmwareVersionAccepted], [CONFIGURATOR.maxFirmwareVersionAccepted]));
+    GUI.log(chrome.i18n.getMessage('firmwareVersionNotSupported', [CONFIGURATOR.minfirmwareVersionAccepted, CONFIGURATOR.maxFirmwareVersionAccepted]));
     CONFIGURATOR.connectionValid = true; // making it possible to open the CLI tab
     GUI.allowedTabs = ['cli'];
     onConnect();
