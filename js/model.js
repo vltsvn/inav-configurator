@@ -1,7 +1,5 @@
 'use strict';
 
-const enableHelicopter = false; //This is for totally hide helicopter settings from user until all heli features will be ready
-
 const SERVO_GIMBAL_PITCH = 0,
     SERVO_GIMBAL_ROLL = 1,
     SERVO_ELEVATOR = 2,
@@ -315,7 +313,7 @@ const mixerList = [
         name: 'CCPM 120',
         model: 'heli',
         image: 'ccpm120',
-        enabled: enableHelicopter,
+        enabled: true,
         legacy: true,
         platform: PLATFORM_HELICOPTER,
         motorMixer: [
@@ -331,7 +329,8 @@ const mixerList = [
             new ServoMixRule(SERVO_SWASHPLATE_3, INPUT_FEATURE_COLLECTIVE_PITCH,  100, 0),
             new ServoMixRule(SERVO_SWASHPLATE_3, INPUT_STABILIZED_ROLL,          -86.6025, 0),
             new ServoMixRule(SERVO_SWASHPLATE_3, INPUT_STABILIZED_PITCH,         -50, 0),
-            new ServoMixRule(SERVO_HELICOPTER_TAIL, INPUT_STABILIZED_YAW,         100, 0)
+            new ServoMixRule(SERVO_HELICOPTER_TAIL, INPUT_STABILIZED_THROTTLE,    50, 0),
+            new ServoMixRule(SERVO_HELICOPTER_TAIL, INPUT_STABILIZED_YAW,         50, 0)
         ]
     },             // 15
     {
@@ -339,7 +338,7 @@ const mixerList = [
         name: 'CCPM 120 Inv',
         model: 'heli',
         image: 'ccpm120inv',
-        enabled: enableHelicopter,
+        enabled: true,
         legacy: true,
         platform: PLATFORM_HELICOPTER,
         motorMixer: [
@@ -355,7 +354,8 @@ const mixerList = [
             new ServoMixRule(SERVO_SWASHPLATE_3, INPUT_FEATURE_COLLECTIVE_PITCH,  100, 0),
             new ServoMixRule(SERVO_SWASHPLATE_3, INPUT_STABILIZED_ROLL,          -86.6025, 0),
             new ServoMixRule(SERVO_SWASHPLATE_3, INPUT_STABILIZED_PITCH,          50, 0),
-            new ServoMixRule(SERVO_HELICOPTER_TAIL, INPUT_STABILIZED_YAW,         100, 0)
+            new ServoMixRule(SERVO_HELICOPTER_TAIL, INPUT_STABILIZED_THROTTLE,    50, 0),
+            new ServoMixRule(SERVO_HELICOPTER_TAIL, INPUT_STABILIZED_YAW,         50, 0)
         ]
     },             // 16
     {
@@ -616,7 +616,7 @@ const platformList = [
     {
         id: 2,
         name: "Helicopter",
-        enabled: enableHelicopter,
+        enabled: true,
         flapsPossible: false
     },
     {
